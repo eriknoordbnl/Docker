@@ -1,0 +1,29 @@
+# Install Docker & Docker-compose on raspberry pi system
+# pre tasks: update
+# check if docker is installed: start role docker_install
+# check if docker-compose is installed: start role compose_install
+# FOR 32 BITS OS
+---
+- hosts: TEST
+  become: true
+  pre_tasks:
+
+  - name: update repository index
+    tags: always
+    apt:
+      update_cache: yes
+    changed_when: false
+    when: ansible_distribution == "Debian"
+
+  tasks:
+
+  roles:
+    - role: setup
+    - role: install
+    - role: compose
+
+#HANDLER
+#  - name: Start Docker service
+#    service:
+#      name: docker
+#      state: started
